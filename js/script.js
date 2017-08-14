@@ -3,37 +3,33 @@ var nums = [];
 
 function getRandomNum () {
   //generate a random number
-  var randomNum =  Math.floor(Math.random() * 5);
+  var randomNum = Math.floor(Math.random() * 5);
 
   //if all number have been used
-  if (nums.indexOf(0) > -1 &&
-      nums.indexOf(1) > -1 &&
-      nums.indexOf(2) > -1 &&
-      nums.indexOf(3) > -1 &&
-      nums.indexOf(4) > -1) {
+  if (nums.length < quotes.length) {
+    //if the number has not been used
+    if (nums.indexOf(randomNum) === -1) {
+      //add number to nums array so it wont be repeated
+      nums.push(randomNum);
+      return randomNum;
+
+      //if the number has been used
+    } else if (nums.indexOf(randomNum) !== -1){
+      //keep generating a new number until it has not been used before
+      do {
+        randomNum =  Math.floor(Math.random() * 5);
+      } while (nums.indexOf(randomNum) !== -1)
+      //add number to nums array so it wont be repeated
+      nums.push(randomNum);
+      return randomNum;
+    }
+  } else {
     //empty array
     nums = [];
   }
-
-  //if the number has not been used
-  if (nums.indexOf(randomNum) === -1) {
-    //add number to nums array so it wont be repeated
-    nums.push(randomNum);
-    return randomNum;
-
-    //if the number has been used
-  } else if (nums.indexOf(randomNum) !== -1){
-    //keep generating a new number until it has not been used before
-    while (nums.indexOf(randomNum) !== -1) {
-      randomNum =  Math.floor(Math.random() * 5);
-    }
-    //add number to nums array so it wont be repeated
-    nums.push(randomNum);
-    return randomNum;
-  }
 }
 
-function getRandomQuote () {
+function randomQuote () {
   //empty the displayQuote that shows the current quote on screen
   displayQuote = [];
 
@@ -44,6 +40,7 @@ function getRandomQuote () {
     displayQuote.push(quotes[arrayIndex].quote);
     displayQuote.push(quotes[arrayIndex].source);
     displayQuote.push(quotes[arrayIndex].style);
+    displayQuote.push(quotes[arrayIndex].citation);
     displayQuote.push(quotes[arrayIndex].year);
   return displayQuote;
 }
@@ -57,11 +54,19 @@ function getRandomColor () {
 }
 
 function printQuote () {
-  getRandomQuote();
+  randomQuote();
   var print = '<p class="quote"> ' + displayQuote[0] + ' </p>';
       print += '<p class="source">' + displayQuote[1];
-        print += '<span class="citation">' + displayQuote[2] + '</span>';
-        print += '<span class="year">' + displayQuote[3] + '</span>';
+        print += '<span class="style">' + displayQuote[2] + '</span>';
+
+        //if citation is known, put it on the page
+        if (displayQuote[3] !== undefined) {
+          print += '<span class="citation">' + displayQuote[3] + '</span>';
+        }
+        //if year is known, put it on the page
+        if (displayQuote[4] !== undefined) {
+          print += '<span class="year">' + displayQuote[4] + '</span>';
+        }
       print += '</p>'
 
     //put the information on the page
